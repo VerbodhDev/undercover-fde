@@ -32,7 +32,7 @@ I'd love to see what you build! Please share it with a pull request to `communit
 
 ## The journey
 
-Week 1 Day 1 is in the `setup/` folder and Week 1 Day 2 is in `labs/`. From Week 1 Day 3 onwards we work in the entire repo. The installation steps for each day are in [setup/INSTRUCTIONS.md](setup/INSTRUCTIONS.md), and the [guides](guides/) folder has guides to the command line, git, Python and other foundations if you'd like a refresher.
+Week 1 Day 1 is in the `setup/` folder and Week 1 Day 2 is in `labs/week1/`. From Week 1 Day 3 onwards we work in the entire repo. The installation steps for each day are in [setup/INSTRUCTIONS.md](setup/INSTRUCTIONS.md), and the [guides](guides/) folder has guides to the command line, git, Python and other foundations if you'd like a refresher.
 
 ### Switching to my version
 
@@ -41,7 +41,7 @@ You can follow the whole course on `main` with your own build, without ever swit
 - `week1day5-start` and so on: my build so far, with the day's product brief in `docs/`
 - `week1day5-end` and so on: my build at the end of the day
 
-Switch to one with `git checkout`, for example `git checkout week1day5-end`. If you carry on with your own build instead, copy the day's brief from `labs/` into `docs/` yourself, for example `labs/week1day5_product_HARNESS.md` to `docs/HARNESS.md`.
+Switch to one with `git checkout`, for example `git checkout week1day5-end`. If you carry on with your own build instead, copy the day's brief from `labs/` into `docs/` yourself, for example `labs/week1/week1day5_product_HARNESS.md` to `docs/HARNESS.md`.
 
 Commit your own changes before you switch branches. Your `.env` file isn't in git, so it stays as it is when you switch.
 
@@ -53,7 +53,7 @@ Commit your own changes before you switch branches. Your `.env` file isn't in gi
 - [setup/INSTRUCTIONS.md](setup/INSTRUCTIONS.md): installing the tools and cloning this repo
 
 **Day 2: Frontier LLMs & Agents**
-- Lab: [labs/week1day2.ipynb](labs/week1day2.ipynb), or [labs/week1day2free.ipynb](labs/week1day2free.ipynb) on free models
+- Lab: [labs/week1/week1day2.ipynb](labs/week1/week1day2.ipynb), or [labs/week1/week1day2free.ipynb](labs/week1/week1day2free.ipynb) on free models
 
 **Day 3: Coding Agents & ADLC**
 - Installing a coding agent: [setup/INSTRUCTIONS.md](setup/INSTRUCTIONS.md#week-1-day-3)
@@ -61,39 +61,39 @@ Commit your own changes before you switch branches. Your `.env` file isn't in gi
 - My build: `git checkout week1day3-end`
 
 **Day 4: Open-Source, Local, Token Cost**
-- Lab: [labs/week1day4.ipynb](labs/week1day4.ipynb), or [labs/week1day4free.ipynb](labs/week1day4free.ipynb) on free models, or [labs/week1day4cpu.ipynb](labs/week1day4cpu.ipynb) for a computer without a GPU
+- Lab: [labs/week1/week1day4.ipynb](labs/week1/week1day4.ipynb), or [labs/week1/week1day4free.ipynb](labs/week1/week1day4free.ipynb) on free models, or [labs/week1/week1day4cpu.ipynb](labs/week1/week1day4cpu.ipynb) for a computer without a GPU
 
 **Day 5: Harness Engineering**
 - To start from my build: `git checkout week1day5-start`
-- Lab 1: [labs/week1day5_lab1.ipynb](labs/week1day5_lab1.ipynb), the Claude Agent SDK
-- Lab 2: [labs/week1day5_lab2.ipynb](labs/week1day5_lab2.ipynb), Deep Agents, or [labs/week1day5_lab2free.ipynb](labs/week1day5_lab2free.ipynb) on free models
-- Product brief: [labs/week1day5_product_HARNESS.md](labs/week1day5_product_HARNESS.md), copied to `docs/HARNESS.md`
+- Lab 1: [labs/week1/week1day5_lab1.ipynb](labs/week1/week1day5_lab1.ipynb), the Claude Agent SDK
+- Lab 2: [labs/week1/week1day5_lab2.ipynb](labs/week1/week1day5_lab2.ipynb), Deep Agents, or [labs/week1/week1day5_lab2free.ipynb](labs/week1/week1day5_lab2free.ipynb) on free models
+- Product brief: [labs/week1/week1day5_product_HARNESS.md](labs/week1/week1day5_product_HARNESS.md), copied to `docs/HARNESS.md`
 - My build: `git checkout week1day5-end`
 
 ### Week 2: Become an AI Architect
 
 **Day 1: Agent Architecture, Evals, Observability**
-- Lab: [labs/week2day1.ipynb](labs/week2day1.ipynb), or [labs/week2day1free.ipynb](labs/week2day1free.ipynb) on free models
+- Lab: [labs/week2/week2day1.ipynb](labs/week2/week2day1.ipynb), or [labs/week2/week2day1free.ipynb](labs/week2/week2day1free.ipynb) on free models
 
 **Day 2: Agentic RAG, MCP, Memory**
-- Lab: [labs/week2day2.ipynb](labs/week2day2.ipynb), or [labs/week2day2free.ipynb](labs/week2day2free.ipynb) on free models
+- Lab: [labs/week2/week2day2.ipynb](labs/week2/week2day2.ipynb), or [labs/week2/week2day2free.ipynb](labs/week2/week2day2free.ipynb) on free models
 
 **Day 3: Durable State & Human in the Loop**
 - To start from my build: `git checkout week2day3-start`
-- Lab: [labs/week2day3.ipynb](labs/week2day3.ipynb), or [labs/week2day3free.ipynb](labs/week2day3free.ipynb) on free models
-- Product brief: [labs/week2day3_product_DURABLE.md](labs/week2day3_product_DURABLE.md), copied to `docs/DURABLE.md`
+- Lab: [labs/week2/week2day3.ipynb](labs/week2/week2day3.ipynb), or [labs/week2/week2day3free.ipynb](labs/week2/week2day3free.ipynb) on free models
+- Product brief: [labs/week2/week2day3_product_DURABLE.md](labs/week2/week2day3_product_DURABLE.md), copied to `docs/DURABLE.md`
 - My build: `git checkout week2day3-end`
 
 **Day 4: Agent Swarms**
 - To start from my build: `git checkout week2day4-start`
-- Lab: [labs/week2day4.ipynb](labs/week2day4.ipynb), or [labs/week2day4free.ipynb](labs/week2day4free.ipynb) on free models
-- Product brief: [labs/week2day4_product_SWARM.md](labs/week2day4_product_SWARM.md), copied to `docs/SWARM.md`
+- Lab: [labs/week2/week2day4.ipynb](labs/week2/week2day4.ipynb), or [labs/week2/week2day4free.ipynb](labs/week2/week2day4free.ipynb) on free models
+- Product brief: [labs/week2/week2day4_product_SWARM.md](labs/week2/week2day4_product_SWARM.md), copied to `docs/SWARM.md`
 - My build: `git checkout week2day4-end`
 
 **Day 5: Self-Improvement, RSI**
 - To start from my build: `git checkout week2day5-start`
-- Lab: [labs/week2day5.ipynb](labs/week2day5.ipynb), or [labs/week2day5free.ipynb](labs/week2day5free.ipynb) on free models
-- Product brief: [labs/week2day5_product_IMPROVE.md](labs/week2day5_product_IMPROVE.md), copied to `docs/IMPROVE.md`
+- Lab: [labs/week2/week2day5.ipynb](labs/week2/week2day5.ipynb), or [labs/week2/week2day5free.ipynb](labs/week2/week2day5free.ipynb) on free models
+- Product brief: [labs/week2/week2day5_product_IMPROVE.md](labs/week2/week2day5_product_IMPROVE.md), copied to `docs/IMPROVE.md`
 - My build: `git checkout week2day5-end`
 
 ### Week 3: Become an AI FDE
@@ -101,34 +101,34 @@ Commit your own changes before you switch branches. Your `.env` file isn't in gi
 This week UnderCover goes into production on AWS, and the free route uses Render. To see what you're spending on AWS, run `uv run monitor.py`.
 
 **Day 1: AI Solutions Architect**
-- Lab: [labs/week3day1.ipynb](labs/week3day1.ipynb), setting up AWS, or [labs/week3day1free.ipynb](labs/week3day1free.ipynb), setting up Render
+- Lab: [labs/week3/week3day1.ipynb](labs/week3/week3day1.ipynb), setting up AWS, or [labs/week3/week3day1free.ipynb](labs/week3/week3day1free.ipynb), setting up Render
 
 **Day 2: Security, Guardrails, API Gateways**
 - To start from my build: `git checkout week3day2-start`
-- Lab 1: [labs/week3day2_lab1.ipynb](labs/week3day2_lab1.ipynb), or [labs/week3day2_lab1free.ipynb](labs/week3day2_lab1free.ipynb) on free models
-- Product brief: [labs/week3day2_product_SECURE.md](labs/week3day2_product_SECURE.md), copied to `docs/SECURE.md`
+- Lab 1: [labs/week3/week3day2_lab1.ipynb](labs/week3/week3day2_lab1.ipynb), or [labs/week3/week3day2_lab1free.ipynb](labs/week3/week3day2_lab1free.ipynb) on free models
+- Product brief: [labs/week3/week3day2_product_SECURE.md](labs/week3/week3day2_product_SECURE.md), copied to `docs/SECURE.md`
 - My build: `git checkout week3day2-end`
-- Lab 2: [labs/week3day2_lab2.ipynb](labs/week3day2_lab2.ipynb) on AWS, or [labs/week3day2_lab2free.ipynb](labs/week3day2_lab2free.ipynb) on Render
+- Lab 2: [labs/week3/week3day2_lab2.ipynb](labs/week3/week3day2_lab2.ipynb) on AWS, or [labs/week3/week3day2_lab2free.ipynb](labs/week3/week3day2_lab2free.ipynb) on Render
 
 **Day 3: Enterprise Context Layer & Integrations**
 - To start from my build: `git checkout week3day3-start`
-- Product brief: [labs/week3day3_product_CONTEXT.md](labs/week3day3_product_CONTEXT.md), copied to `docs/CONTEXT.md`
+- Product brief: [labs/week3/week3day3_product_CONTEXT.md](labs/week3/week3day3_product_CONTEXT.md), copied to `docs/CONTEXT.md`
 - My build: `git checkout week3day3-end`
-- Lab: [labs/week3day3.ipynb](labs/week3day3.ipynb) on AWS, or [labs/week3day3free.ipynb](labs/week3day3free.ipynb) on your own computer
+- Lab: [labs/week3/week3day3.ipynb](labs/week3/week3day3.ipynb) on AWS, or [labs/week3/week3day3free.ipynb](labs/week3/week3day3free.ipynb) on your own computer
 
 **Day 4: Production Deployment**
 - To start from my build: `git checkout week3day4-start`
-- Lab 1: [labs/week3day4_lab1.ipynb](labs/week3day4_lab1.ipynb), AgentCore Runtime
-- Product brief: [labs/week3day4_product_RUNTIME.md](labs/week3day4_product_RUNTIME.md), copied to `docs/RUNTIME.md`
+- Lab 1: [labs/week3/week3day4_lab1.ipynb](labs/week3/week3day4_lab1.ipynb), AgentCore Runtime
+- Product brief: [labs/week3/week3day4_product_RUNTIME.md](labs/week3/week3day4_product_RUNTIME.md), copied to `docs/RUNTIME.md`
 - My build: `git checkout week3day4-end`
-- Lab 2: [labs/week3day4_lab2.ipynb](labs/week3day4_lab2.ipynb) on AWS, or [labs/week3day4_lab2free.ipynb](labs/week3day4_lab2free.ipynb) on Render
+- Lab 2: [labs/week3/week3day4_lab2.ipynb](labs/week3/week3day4_lab2.ipynb) on AWS, or [labs/week3/week3day4_lab2free.ipynb](labs/week3/week3day4_lab2free.ipynb) on Render
 
 **Day 5: Capstone**
 - To start from my build: `git checkout week3day5-start`
-- Product brief: [labs/week3day5_product_COPILOT.md](labs/week3day5_product_COPILOT.md), copied to `docs/COPILOT.md`
+- Product brief: [labs/week3/week3day5_product_COPILOT.md](labs/week3/week3day5_product_COPILOT.md), copied to `docs/COPILOT.md`
 - My build: `git checkout week3day5-end`
-- Lab 1: [labs/week3day5_lab1.ipynb](labs/week3day5_lab1.ipynb) on AWS, or [labs/week3day5_lab1free.ipynb](labs/week3day5_lab1free.ipynb) on Render
-- Lab 2: [labs/week3day5_lab2.ipynb](labs/week3day5_lab2.ipynb), the final teardown
+- Lab 1: [labs/week3/week3day5_lab1.ipynb](labs/week3/week3day5_lab1.ipynb) on AWS, or [labs/week3/week3day5_lab1free.ipynb](labs/week3/week3day5_lab1free.ipynb) on Render
+- Lab 2: [labs/week3/week3day5_lab2.ipynb](labs/week3/week3day5_lab2.ipynb), the final teardown
 
 ## The branches
 

@@ -61,9 +61,9 @@ Then choose **File**, **Open Folder** and pick the `undercover` folder. If VS Co
 
 ## Week 1 Day 2
 
-The lab is `labs/week1day2.ipynb`. It calls paid models, so add a little credit to your OpenRouter account at https://openrouter.ai/settings/credits. The lab costs a few cents.
+The lab is `labs/week1/week1day2.ipynb`. It calls paid models, so add a little credit to your OpenRouter account at https://openrouter.ai/settings/credits. The lab costs a few cents.
 
-If you'd rather not spend anything, use `labs/week1day2free.ipynb`, which uses free models throughout.
+If you'd rather not spend anything, use `labs/week1/week1day2free.ipynb`, which uses free models throughout.
 
 ## Week 1 Day 3
 

@@ -32,7 +32,7 @@ The student is also here to learn. Write plans they can review: say what each ph
 
 Each build day has a brief in `labs/`, which the student copies into `docs/` at the start of the day; if the student asks, copy it for them. The build goes in two steps, with the student's review in between. First a request like "Please plan <the work> in docs/<NAME>.md", which writes the plan to `docs/PLAN_<NAME>.md`, then "Please implement the plan for <the work>". The first build, the pilot, works from `docs/SPEC.md` itself: "Please plan the pilot" writes `docs/PLAN.md`, then "Please implement the plan for the pilot".
 
-| Day | Brief in `labs/` | Copied to | What the build adds |
+| Day | Brief in `labs/week<N>/` | Copied to | What the build adds |
 |---|---|---|---|
 | Week 1 Day 3 | none | `docs/SPEC.md` is the brief | The pilot: the backend, the dashboard and a first agent |
 | Week 1 Day 5 | `week1day5_product_HARNESS.md` | `docs/HARNESS.md` | The agent's harness: its tools, middleware and instructions |
@@ -56,7 +56,7 @@ Each build day has a brief in `labs/`, which the student copies into `docs/` at 
 - `context/`: data governance's files, which become UnderCover's context layer on Week 3 Day 3
 - `runtime/` and `agentcore/`: the platform team's files for AgentCore Runtime, from Week 3 Day 4
 - `data/`: UnderCover's business data
-- `labs/`: the course's Jupyter notebooks and the brief for each build day
+- `labs/`: the course's Jupyter notebooks and the brief for each build day, in one folder per week (`week1/`, `week2/`, `week3/`)
 - `guides/`: guides to the command line, git, Python and other foundations
 - `setup/`: the setup notebook, the installation steps, the course guide and the git guide
 - `assets/`: images used in the notebooks
@@ -74,7 +74,7 @@ When the student has questions about the course, what a day covers or what it's 
 
 ### The labs
 
-Each day's labs are notebooks in `labs/`, named for the day, such as `labs/week2day3.ipynb`. They run in VS Code or Cursor on the `.venv` kernel that `uv sync` creates, with the student's keys in `.env`. Help the student run them, understand them and fix what goes wrong.
+Each day's labs are notebooks in `labs/`, one folder per week and named for the day, such as `labs/week2/week2day3.ipynb`. They run in VS Code or Cursor on the `.venv` kernel that `uv sync` creates, with the student's keys in `.env`. Help the student run them, understand them and fix what goes wrong.
 
 About $10 of API spend is typical for the course, and there's a free alternative to everything: most labs have a free version whose name ends in `free`, the product uses the model in `MODEL_NAME` when it's set (such as `openrouter/free`), OpenCode with OpenCode Zen is a free coding agent, and in Week 3 the free route uses Render in place of AWS.
 

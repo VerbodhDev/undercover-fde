@@ -22,7 +22,7 @@ Ed's rule is that no money needs to be spent to take the course. A typical stude
 | W1D2 | `week1day2free`, about 30 requests. |
 | W1D3 | The build with OpenCode and OpenCode Zen's free models. GitHub Copilot and Cursor have free tiers too. |
 | W1D4 | `week1day4free`, about 22 requests, plus three local models with Ollama. `week1day4cpu` has local models small enough for a computer without a GPU. |
-| W1D5 | Lab 1 is watch-only. `week1day5_lab2free` runs Deep Agents on the free dots.3 Note Preview over three claims in `labs/lab2free_desk`, about 35 requests, so once a day. |
+| W1D5 | Lab 1 is watch-only. `week1day5_lab2free` runs Deep Agents on the free dots.3 Note Preview over three claims in `labs/week1/lab2free_desk`, about 35 requests, so once a day. |
 | W2D1 | `week2day1free`, about 30 requests, with a free Langfuse account. |
 | W2D2 | `week2day2free`, about 40 requests. |
 | W2D3 | `week2day3free`, about 15 requests, with a free Supabase project. |
@@ -34,7 +34,7 @@ Ed's rule is that no money needs to be spent to take the course. A typical stude
 
 ## Week 3: the Render route
 
-The free route for Week 3 is a written guide for each day, in markdown notebooks in `labs/`: `week3day1free`, `week3day2_lab2free`, `week3day3free`, `week3day4_lab2free` and `week3day5_lab1free`. Week 3 Day 2's Lab 1 has a free twin that runs code, `week3day2_lab1free`, about 25 requests. Instead of Lambda and AgentCore, the product runs as free web services on Render, with the same Supabase database as the laptop. There's no Gateway, Policy, Memory or Runtime on this route, and the student watches those parts in the main labs.
+The free route for Week 3 is a written guide for each day, in markdown notebooks in `labs/week3/`: `week3day1free`, `week3day2_lab2free`, `week3day3free`, `week3day4_lab2free` and `week3day5_lab1free`. Week 3 Day 2's Lab 1 has a free twin that runs code, `week3day2_lab1free`, about 25 requests. Instead of Lambda and AgentCore, the product runs as free web services on Render, with the same Supabase database as the laptop. There's no Gateway, Policy, Memory or Runtime on this route, and the student watches those parts in the main labs.
 
 ### What runs where
 

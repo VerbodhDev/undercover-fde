@@ -49,9 +49,9 @@ agentcore/aws-targets.json
 lambda_package/
 
 # What the AgentCore CLI makes as it runs the Week 3 Day 4 Lab 1's project
-labs/undercoverlab/agentcore/.cli/
-labs/undercoverlab/agentcore/.cache/
-labs/undercoverlab/agentcore/aws-targets.json
+labs/week3/undercoverlab/agentcore/.cli/
+labs/week3/undercoverlab/agentcore/.cache/
+labs/week3/undercoverlab/agentcore/aws-targets.json
 
 # Local databases and data
 *.db
@@ -60,7 +60,7 @@ labs/undercoverlab/agentcore/aws-targets.json
 qdrant_data/
 
 # Claims desks made by the Week 1 Day 5 labs
-labs/*_desk/
+labs/*/*_desk/
 
 # Claude Code's local settings
 .claude/settings.local.json
