@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { listClaims, type ClaimSummary, type Status } from "./api";
 import { label, money, statusLabels } from "./format";
 
+const QUEUE_POLL_MS = 5000;
+
 export function StatusChip({ status }: Readonly<{ status: Status }>) {
   return <span className={`chip ${status}`}>{statusLabels[status]}</span>;
 }
@@ -11,6 +13,12 @@ export function Queue() {
 
   useEffect(() => {
     void listClaims().then(setClaims);
+    const timer = setInterval(() => {
+      void listClaims().then(setClaims);
+    }, QUEUE_POLL_MS);
+    return () => {
+      clearInterval(timer);
+    };
   }, []);
 
   if (!claims) return <p className="muted">Loading the queue</p>;

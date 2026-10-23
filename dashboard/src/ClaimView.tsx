@@ -11,6 +11,7 @@ import {
 } from "./api";
 import { label, money } from "./format";
 import { StatusChip } from "./Queue";
+import { SignOff } from "./SignOff";
 
 function Decision({ claim }: Readonly<{ claim: Claim }>) {
   if (!claim.decision) {
@@ -92,6 +93,11 @@ function History({ history }: Readonly<{ history: PastClaim[] }>) {
   );
 }
 
+export const POLL_MS = 2000;
+
+const loadClaim = (claimId: string) =>
+  Promise.all([getClaim(claimId), listSteps(claimId)]);
+
 export function ClaimView({ claimId }: Readonly<{ claimId: string }>) {
   const [claim, setClaim] = useState<Claim | null>(null);
   const [steps, setSteps] = useState<Step[]>([]);
@@ -99,13 +105,29 @@ export function ClaimView({ claimId }: Readonly<{ claimId: string }>) {
   const [history, setHistory] = useState<PastClaim[]>([]);
 
   useEffect(() => {
-    void getClaim(claimId).then((loaded) => {
+    void loadClaim(claimId).then(([loaded, loadedSteps]) => {
       setClaim(loaded);
+      setSteps(loadedSteps);
       void getPolicy(loaded.policy_id).then(setPolicy);
       void getClaimHistory(loaded.customer_id).then(setHistory);
     });
-    void listSteps(claimId).then(setSteps);
   }, [claimId]);
+
+  // Until the agent has decided, keep checking for its new steps.
+  const undecided =
+    claim?.status === "waiting" || claim?.status === "in_progress";
+  useEffect(() => {
+    if (!undecided) return;
+    const timer = setInterval(() => {
+      void loadClaim(claimId).then(([loaded, loadedSteps]) => {
+        setClaim(loaded);
+        setSteps(loadedSteps);
+      });
+    }, POLL_MS);
+    return () => {
+      clearInterval(timer);
+    };
+  }, [claimId, undecided]);
 
   if (!claim) return <p className="muted">Loading {claimId}</p>;
 
@@ -122,6 +144,9 @@ export function ClaimView({ claimId }: Readonly<{ claimId: string }>) {
           <div className="panel stack-sm">
             <h2>Decision</h2>
             <Decision claim={claim} />
+            {claim.status === "waiting_for_sign_off" && (
+              <SignOff claim={claim} onSigned={setClaim} />
+            )}
           </div>
           <div className="panel stack-sm">
             <h2>Story</h2>

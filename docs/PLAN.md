@@ -153,19 +153,21 @@ an `.mjs` global setup), and read the dashboard's proxy target from an environme
 
 ## Phase 5: live steps and sign-off
 
-While a claim is `in_progress`, the claim view polls the claim and its steps every two seconds and shows
+While a claim is `waiting` or `in_progress`, the claim view polls the claim and its steps every two seconds and shows
 each step as it arrives. The queue polls every five seconds so states change on their own. A claim
 `waiting_for_sign_off` shows the payout, the agent's reasons and a sign-off form with a handler picker.
 
-- [ ] Vitest tests: steps appear as polling returns more of them; polling stops once the claim leaves
-      `in_progress`; signing off posts the chosen handler and shows the claim as decided and paid
-- [ ] An e2e test drives the backend through the API (no model): starts a claim, adds steps, and sees them
+- [x] Vitest tests: steps appear as polling returns more of them; polling stops once the claim is decided
+      or waiting for sign-off (it also polls while `waiting`, so a page opened before the agent starts
+      still updates); signing off posts the chosen handler and shows the claim as decided and paid
+- [x] An e2e test drives the backend through the API (no model): starts a claim, adds steps, and sees them
       appear on the claim view without a reload
-- [ ] An e2e test records an approve over $1,000 through the API, sees the claim waiting for sign-off,
+- [x] An e2e test records an approve over $1,000 through the API, sees the claim waiting for sign-off,
       signs off as Dana Whitfield and sees "Paid $..."
-- [ ] In the browser (Playwright MCP), running `uv run -m agent CLM-1001` while the claim view is open shows
+- [x] In the browser (Playwright MCP), running `uv run -m agent CLM-1001` while the claim view is open shows
       the steps arrive one by one and then the decision
-- [ ] `npm run check:ts` and `npm run e2e` pass
+      (checked with the Chrome DevTools MCP server on CLM-1002, as CLM-1001 was already decided)
+- [x] `npm run check:ts` and `npm run e2e` pass
 
 ## Phase 6: the whole queue and hand-over
 
