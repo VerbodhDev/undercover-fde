@@ -3,13 +3,34 @@
 import json
 import sqlite3
 from collections.abc import Iterator
-from typing import Annotated, Any
+from typing import Annotated, Any, Literal
 
 from fastapi import Depends, FastAPI, HTTPException
+from pydantic import BaseModel, Field
 
 from backend import store
 
 app = FastAPI(title="UnderCover")
+
+
+class Decision(BaseModel):
+    decision: Literal["approve", "decline", "refer"]
+    payout: float = Field(ge=0)
+    reason: str
+    policy_section: str
+
+
+class Payment(BaseModel):
+    amount: float = Field(gt=0)
+
+
+class SignOff(BaseModel):
+    handler_id: str
+
+
+class Step(BaseModel):
+    kind: Literal["tool_call", "tool_result", "reply"]
+    text: str
 
 
 def get_db() -> Iterator[sqlite3.Connection]:
@@ -105,3 +126,103 @@ def get_policy_wording() -> dict[str, str]:
 def list_handlers() -> list[dict[str, Any]]:
     """List the claims handlers."""
     return store.load("handlers.json")
+
+
+@app.post("/api/claims/{claim_id}/start", operation_id="start_claim")
+def start_claim(claim_id: str, db: Db) -> dict[str, Any]:
+    """Mark a claim as in progress and clear the steps of any earlier run."""
+    if claim_row(db, claim_id)["status"] not in {"waiting", "in_progress"}:
+        raise HTTPException(409, f"Claim {claim_id} has already been decided")
+    with db:
+        db.execute(
+            "UPDATE claims SET status = 'in_progress' WHERE claim_id = ?", (claim_id,)
+        )
+        db.execute("DELETE FROM steps WHERE claim_id = ?", (claim_id,))
+    return get_claim(claim_id, db)
+
+
+@app.post("/api/claims/{claim_id}/steps", operation_id="add_step")
+def add_step(claim_id: str, step: Step, db: Db) -> dict[str, str]:
+    """Record one step the agent took on a claim."""
+    claim_row(db, claim_id)
+    with db:
+        db.execute(
+            "INSERT INTO steps (claim_id, kind, text) VALUES (?, ?, ?)",
+            (claim_id, step.kind, step.text),
+        )
+    return {"status": "recorded"}
+
+
+@app.get("/api/claims/{claim_id}/steps", operation_id="list_steps")
+def list_steps(claim_id: str, db: Db) -> list[dict[str, Any]]:
+    """List the steps the agent took on a claim, in order."""
+    claim_row(db, claim_id)
+    rows = db.execute(
+        "SELECT id, kind, text FROM steps WHERE claim_id = ? ORDER BY id", (claim_id,)
+    ).fetchall()
+    return [dict(r) for r in rows]
+
+
+@app.post("/api/claims/{claim_id}/decision", operation_id="record_decision")
+def record_decision(claim_id: str, decision: Decision, db: Db) -> dict[str, Any]:
+    """Approve, decline or refer a claim, with payout, reasons and policy section."""
+    if claim_row(db, claim_id)["status"] not in {"waiting", "in_progress"}:
+        raise HTTPException(409, f"Claim {claim_id} has already been decided")
+    if decision.decision != "approve" and decision.payout > 0:
+        raise HTTPException(422, "Only an approved claim has a payout above zero")
+    over_limit = decision.payout > store.load("company.json")["payout_approval_limit"]
+    with db:
+        db.execute(
+            "UPDATE claims SET status = ?, decision = ?, payout = ?, reason = ?,"
+            " policy_section = ? WHERE claim_id = ?",
+            (
+                "waiting_for_sign_off" if over_limit else "decided",
+                decision.decision,
+                decision.payout,
+                decision.reason,
+                decision.policy_section,
+                claim_id,
+            ),
+        )
+    return get_claim(claim_id, db)
+
+
+@app.post("/api/claims/{claim_id}/payment", operation_id="pay_claim")
+def pay_claim(claim_id: str, payment: Payment, db: Db) -> dict[str, Any]:
+    """Pay an approved claim its payout. A payout over $1,000 needs sign-off first."""
+    row = claim_row(db, claim_id)
+    if row["decision"] != "approve":
+        raise HTTPException(409, f"Claim {claim_id} is not approved")
+    if row["paid_amount"] is not None:
+        raise HTTPException(409, f"Claim {claim_id} has already been paid")
+    limit = store.load("company.json")["payout_approval_limit"]
+    if row["payout"] > limit and row["signed_off_by"] is None:
+        raise HTTPException(
+            403, f"A payout over ${limit:,.2f} needs a handler's sign-off first"
+        )
+    if round(payment.amount, 2) != round(row["payout"], 2):
+        raise HTTPException(
+            422, f"The amount must be the approved payout, ${row['payout']:,.2f}"
+        )
+    with db:
+        db.execute(
+            "UPDATE claims SET paid_amount = payout WHERE claim_id = ?", (claim_id,)
+        )
+    return get_claim(claim_id, db)
+
+
+@app.post("/api/claims/{claim_id}/sign-off", operation_id="sign_off")
+def sign_off(claim_id: str, sign_off: SignOff, db: Db) -> dict[str, Any]:
+    """Sign off a payout over $1,000 as a handler, which pays it."""
+    handlers = {h["handler_id"] for h in store.load("handlers.json")}
+    if sign_off.handler_id not in handlers:
+        raise HTTPException(404, f"Handler {sign_off.handler_id} not found")
+    if claim_row(db, claim_id)["status"] != "waiting_for_sign_off":
+        raise HTTPException(409, f"Claim {claim_id} is not waiting for sign-off")
+    with db:
+        db.execute(
+            "UPDATE claims SET status = 'decided', signed_off_by = ?,"
+            " paid_amount = payout WHERE claim_id = ?",
+            (sign_off.handler_id, claim_id),
+        )
+    return get_claim(claim_id, db)

@@ -84,23 +84,23 @@ The database path is `UNDERCOVER_DB`, defaulting to `backend/undercover.db` (alr
 Add `start_claim`, the steps routes, `record_decision`, `pay_claim` and `sign_off`. The limit comes from
 `payout_approval_limit` in `data/company.json`.
 
-- [ ] `start_claim` moves `waiting` or `in_progress` to `in_progress` and clears old steps; a `decided`
+- [x] `start_claim` moves `waiting` or `in_progress` to `in_progress` and clears old steps; a `decided`
       claim returns 409
-- [ ] `record_decision` takes `decision` (`approve`, `decline` or `refer`), `payout`, `reason` and
+- [x] `record_decision` takes `decision` (`approve`, `decline` or `refer`), `payout`, `reason` and
       `policy_section`; a payout above zero on a decline or refer returns 422
-- [ ] Approve with payout $420.00 sets `decided`; approve with $1,250.00 sets `waiting_for_sign_off`
-- [ ] `pay_claim` with the approved payout of $420.00 succeeds and sets `paid_amount`
-- [ ] **The rule:** `pay_claim` on the $1,250.00 claim before sign-off returns 403 and nothing is paid.
+- [x] Approve with payout $420.00 sets `decided`; approve with $1,250.00 sets `waiting_for_sign_off`
+- [x] `pay_claim` with the approved payout of $420.00 succeeds and sets `paid_amount`
+- [x] **The rule:** `pay_claim` on the $1,250.00 claim before sign-off returns 403 and nothing is paid.
       Tests also try $1,000.00 and $250.00 on that claim (splitting the payment) and both return 403
-- [ ] `pay_claim` with an amount that is not the approved payout returns 422; paying twice returns 409;
+- [x] `pay_claim` with an amount that is not the approved payout returns 422; paying twice returns 409;
       paying a declined or referred claim returns 409
-- [ ] `sign_off` with HND-01 on the $1,250.00 claim records the handler, pays $1,250.00 and sets
+- [x] `sign_off` with HND-01 on the $1,250.00 claim records the handler, pays $1,250.00 and sets
       `decided`; signing off a claim that is not waiting for sign-off returns 409; an unknown handler
       returns 404
-- [ ] `add_step` then `list_steps` returns the steps in order
-- [ ] `curl -X POST localhost:8000/api/claims/CLM-1001/payment -H "Content-Type: application/json" -d "{\"amount\": 420}"`
+- [x] `add_step` then `list_steps` returns the steps in order
+- [x] `curl -X POST localhost:8000/api/claims/CLM-1001/payment -H "Content-Type: application/json" -d "{\"amount\": 420}"`
       against a running backend gives 409 while the claim has no decision
-- [ ] `npm run check:python` passes, coverage at or above 80%
+- [x] `npm run check:python` passes, coverage at or above 80%
 
 ## Phase 3: the UnderCover Agent
 
