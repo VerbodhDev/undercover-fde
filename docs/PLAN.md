@@ -175,8 +175,8 @@ each step as it arrives. The queue polls every five seconds so states change on 
       waiting to decided or waiting for sign-off in the browser
 - [ ] Every claim ends `decided` or `waiting_for_sign_off`; every approved claim over $1,000 is unpaid
       until signed off (checked with `GET /api/claims`)
-- [ ] `docs/STATUS.md` says what is built, how to run it, how to reset the data and how to run the agent
-- [ ] `npm run check` passes in full
+- [x] `docs/STATUS.md` says what is built, how to run it, how to reset the data and how to run the agent
+- [x] `npm run check` passes in full
 
 ## Not in the pilot
 

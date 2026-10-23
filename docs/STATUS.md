@@ -1,6 +1,7 @@
 # Status
 
-The claims pilot, built from `docs/PLAN.md`. Done so far: phases 1 to 5.
+The claims pilot, built from `docs/PLAN.md`. Phases 1 to 5 are done. In phase 6 the whole-queue run stopped after 10 of the 25 claims, when
+the OpenRouter account ran out of credits; the other 15 claims are still waiting.
 
 - `backend/`: FastAPI on SQLite. `backend/store.py` creates `backend/undercover.db` (or the file in
   `UNDERCOVER_DB`) and seeds it from `data/` on first start: the 25 claims, the policies and the
@@ -35,3 +36,14 @@ npm run agent              # or: uv run -m agent CLM-1001 CLM-1002
 The model is `openai/gpt-6-luna`, or `MODEL_NAME` from `.env` (such as `openrouter/free`).
 
 To reset the data, stop the backend and delete `backend/undercover.db`.
+
+## Check it
+
+```bash
+npm run check    # Python checks, TypeScript checks, then the end-to-end tests
+```
+
+## Not built yet
+
+- Scoring the agent against `data/evals/`. The answer key stays unopened until that build.
+- The claims manual, sign-in, real payments and messages to customers, as `docs/SPEC.md` says.
