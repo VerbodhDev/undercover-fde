@@ -114,20 +114,20 @@ The instructions tell the agent to read the claim, the policy, the claim history
 decide by the wording alone; work out the payout by section 10; record the decision with two or three
 sentences of reasons and the section; then pay if it approved.
 
-- [ ] `GET /api/instructions` returns the text of `backend/instructions.md`
-- [ ] Each tool test calls the real app through `TestClient` and gets the right data back
-- [ ] A stub-model test of `run` on CLM-1001 (scripted: read claim, policy, history, wording; approve
+- [x] `GET /api/instructions` returns the text of `backend/instructions.md`
+- [x] Each tool test calls the real app through `TestClient` and gets the right data back
+- [x] A stub-model test of `run` on CLM-1001 (scripted: read claim, policy, history, wording; approve
       $420.00; pay) ends with the claim `decided`, `paid_amount` 420.0, and at least six steps recorded
-- [ ] A stub-model test where the agent approves $1,250.00 and then calls `pay_claim` ends with the claim
+- [x] A stub-model test where the agent approves $1,250.00 and then calls `pay_claim` ends with the claim
       `waiting_for_sign_off` and nothing paid; the tool returns the backend's refusal to the model as text
       rather than crashing the run
-- [ ] A test of the runner with a stub `run` works only the waiting claims, in queue order
-- [ ] `test_model_name` still passes: `openai/gpt-6-luna` by default, `MODEL_NAME` when set
-- [ ] No file in `agent/` reads `data/` (test greps `agent/*.py` for `data/`)
-- [ ] With the backend running and the key in `.env`, `uv run -m agent CLM-1001` decides the claim and
+- [x] A test of the runner with a stub `run` works only the waiting claims, in queue order
+- [x] `test_model_name` still passes: `openai/gpt-6-luna` by default, `MODEL_NAME` when set
+- [x] No file in `agent/` reads `data/` (test greps `agent/*.py` for `data/`)
+- [x] With the backend running and the key in `.env`, `uv run -m agent CLM-1001` decides the claim and
       `GET /api/claims/CLM-1001` shows the decision, reasons and section (one real model call, a few cents
       or free with `MODEL_NAME=openrouter/free`)
-- [ ] `npm run check:python` passes
+- [x] `npm run check:python` passes
 
 ## Phase 4: the dashboard, read only
 

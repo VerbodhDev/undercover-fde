@@ -3,6 +3,7 @@
 import json
 import sqlite3
 from collections.abc import Iterator
+from pathlib import Path
 from typing import Annotated, Any, Literal
 
 from fastapi import Depends, FastAPI, HTTPException
@@ -11,6 +12,8 @@ from pydantic import BaseModel, Field
 from backend import store
 
 app = FastAPI(title="UnderCover")
+
+INSTRUCTIONS = Path(__file__).parent / "instructions.md"
 
 
 class Decision(BaseModel):
@@ -120,6 +123,12 @@ def get_claim_history(customer_id: str, db: Db) -> list[dict[str, Any]]:
 def get_policy_wording() -> dict[str, str]:
     """Get the policy wording, the contract that decisions follow."""
     return {"text": (store.DATA / "policy_wording.md").read_text(encoding="utf-8")}
+
+
+@app.get("/api/instructions", operation_id="get_instructions")
+def get_instructions() -> dict[str, str]:
+    """Get the UnderCover Agent's instructions."""
+    return {"text": INSTRUCTIONS.read_text(encoding="utf-8")}
 
 
 @app.get("/api/handlers", operation_id="list_handlers")

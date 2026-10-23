@@ -85,3 +85,9 @@ def test_opening_twice_does_not_reseed():
     assert conn.execute("SELECT COUNT(*) FROM claims").fetchone()[0] == 25
     assert conn.execute("SELECT COUNT(*) FROM policies").fetchone()[0] == 50
     conn.close()
+
+
+def test_instructions():
+    text = client.get("/api/instructions").json()["text"]
+    assert text == Path("backend/instructions.md").read_text(encoding="utf-8")
+    assert "section 10" in text
