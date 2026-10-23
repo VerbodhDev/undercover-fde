@@ -1,4 +1,5 @@
 import json
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 import pytest
@@ -91,3 +92,20 @@ def test_instructions():
     text = client.get("/api/instructions").json()["text"]
     assert text == Path("backend/instructions.md").read_text(encoding="utf-8")
     assert "section 10" in text
+
+
+def test_connection_works_across_threads():
+    conn = store.connect()
+    with ThreadPoolExecutor() as pool:
+        count = pool.submit(
+            lambda: conn.execute("SELECT COUNT(*) FROM claims").fetchone()
+        )
+    assert count.result()[0] == 25
+    conn.close()
+
+
+def test_concurrent_first_requests_seed_once():
+    with ThreadPoolExecutor(max_workers=8) as pool:
+        responses = list(pool.map(lambda _: client.get("/api/claims"), range(8)))
+    assert {r.status_code for r in responses} == {200}
+    assert len(client.get("/api/claims").json()) == 25

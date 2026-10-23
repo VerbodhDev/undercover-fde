@@ -57,10 +57,15 @@ def seed(conn: sqlite3.Connection) -> None:
 
 def connect() -> sqlite3.Connection:
     """Open the database named in UNDERCOVER_DB, creating and seeding it if new."""
-    conn = sqlite3.connect(os.getenv("UNDERCOVER_DB", str(DEFAULT_DB)))
+    # FastAPI opens the connection and runs the route on different threads; each
+    # connection is still used by one request at a time.
+    conn = sqlite3.connect(
+        os.getenv("UNDERCOVER_DB", str(DEFAULT_DB)), check_same_thread=False
+    )
     conn.row_factory = sqlite3.Row
+    conn.executescript(SCHEMA)
     with conn:
-        conn.executescript(SCHEMA)
+        conn.execute("BEGIN IMMEDIATE")
         if conn.execute("SELECT COUNT(*) FROM claims").fetchone()[0] == 0:
             seed(conn)
     return conn

@@ -140,15 +140,16 @@ Move the e2e servers to ports 8001 and 5174 with `UNDERCOVER_DB=e2e/e2e.db` (del
 an `.mjs` global setup), and read the dashboard's proxy target from an environment variable defaulting to
 8000.
 
-- [ ] Vitest tests with a mocked `fetch` cover the queue, the claim view and the instructions view
-- [ ] The queue shows 25 claims with id, customer, type, amount and state, and a count per state
-- [ ] The claim view shows the story, items, documents, policy, claim history and, once decided, the
+- [x] Vitest tests with a mocked `fetch` cover the queue, the claim view and the instructions view
+- [x] The queue shows 25 claims with id, customer, type, amount and state, and a count per state
+- [x] The claim view shows the story, items, documents, policy, claim history and, once decided, the
       decision, payout, reasons and policy section
-- [ ] The instructions view shows the text from `GET /api/instructions` with no way to edit it
-- [ ] In the browser (Playwright MCP) at `localhost:5173`: the queue loads, clicking CLM-1001 opens it,
+- [x] The instructions view shows the text from `GET /api/instructions` with no way to edit it
+- [x] In the browser (Playwright MCP) at `localhost:5173`: the queue loads, clicking CLM-1001 opens it,
+      (checked with the Chrome DevTools MCP server, as the Playwright MCP server is not connected)
       the back link returns to the queue; checked in light and dark mode
-- [ ] An e2e test opens the queue, sees 25 claims and opens CLM-1001
-- [ ] `npm run check:ts` and `npm run e2e` pass, coverage at or above 80%
+- [x] An e2e test opens the queue, sees 25 claims and opens CLM-1001
+- [x] `npm run check:ts` and `npm run e2e` pass, coverage at or above 80%
 
 ## Phase 5: live steps and sign-off
 

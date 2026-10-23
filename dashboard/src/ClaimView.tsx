@@ -1,0 +1,178 @@
+import { useEffect, useState } from "react";
+import {
+  getClaim,
+  getClaimHistory,
+  getPolicy,
+  listSteps,
+  type Claim,
+  type PastClaim,
+  type Policy,
+  type Step,
+} from "./api";
+import { label, money } from "./format";
+import { StatusChip } from "./Queue";
+
+function Decision({ claim }: Readonly<{ claim: Claim }>) {
+  if (!claim.decision) {
+    return <p className="muted">The agent has not decided this claim yet.</p>;
+  }
+  return (
+    <div className="stack-sm">
+      <p className="decision">
+        {label(claim.decision)}
+        {claim.decision === "approve" && claim.payout !== null && (
+          <span className="mono"> {money(claim.payout)}</span>
+        )}
+      </p>
+      <p>{claim.reason}</p>
+      <p className="muted">Policy section: {claim.policy_section}</p>
+      {claim.decision === "approve" && (
+        <p className="muted">
+          {claim.paid_amount === null
+            ? "Not paid yet"
+            : `Paid ${money(claim.paid_amount)}`}
+        </p>
+      )}
+    </div>
+  );
+}
+
+function Steps({ steps }: Readonly<{ steps: Step[] }>) {
+  if (steps.length === 0) {
+    return <p className="muted">No steps yet.</p>;
+  }
+  return (
+    <ol className="steps">
+      {steps.map((step) => (
+        <li key={step.id} className={step.kind}>
+          <span className="step-kind">{label(step.kind)}</span>
+          <span className="step-text">{step.text}</span>
+        </li>
+      ))}
+    </ol>
+  );
+}
+
+function PolicyPanel({ policy }: Readonly<{ policy: Policy }>) {
+  return (
+    <dl className="facts">
+      <dt>Policy</dt>
+      <dd className="mono">{policy.policy_id}</dd>
+      <dt>Plan</dt>
+      <dd>{label(policy.plan)}</dd>
+      <dt>Add-ons</dt>
+      <dd>
+        {policy.add_ons.length ? policy.add_ons.map(label).join(", ") : "None"}
+      </dd>
+      <dt>Trip</dt>
+      <dd>
+        {policy.trip.destination}, {policy.trip.departs_on} to{" "}
+        {policy.trip.returns_on}
+      </dd>
+      <dt>Trip cost</dt>
+      <dd className="mono">{money(policy.trip.trip_cost)}</dd>
+      <dt>Travelers</dt>
+      <dd>{policy.travelers.join(", ")}</dd>
+    </dl>
+  );
+}
+
+function History({ history }: Readonly<{ history: PastClaim[] }>) {
+  if (history.length === 0) return <p className="muted">No earlier claims.</p>;
+  return (
+    <ul className="stack-sm plain">
+      {history.map((past) => (
+        <li key={past.claim_id}>
+          <span className="mono">{past.claim_id}</span>, {past.filed_on}:{" "}
+          {past.summary}. {label(past.outcome)}, paid{" "}
+          <span className="mono">{money(past.amount_paid)}</span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+export function ClaimView({ claimId }: Readonly<{ claimId: string }>) {
+  const [claim, setClaim] = useState<Claim | null>(null);
+  const [steps, setSteps] = useState<Step[]>([]);
+  const [policy, setPolicy] = useState<Policy | null>(null);
+  const [history, setHistory] = useState<PastClaim[]>([]);
+
+  useEffect(() => {
+    void getClaim(claimId).then((loaded) => {
+      setClaim(loaded);
+      void getPolicy(loaded.policy_id).then(setPolicy);
+      void getClaimHistory(loaded.customer_id).then(setHistory);
+    });
+    void listSteps(claimId).then(setSteps);
+  }, [claimId]);
+
+  if (!claim) return <p className="muted">Loading {claimId}</p>;
+
+  return (
+    <section className="stack">
+      <a href="#/">Back to the queue</a>
+      <header className="claim-head">
+        <h1 className="mono">{claim.claim_id}</h1>
+        <StatusChip status={claim.status} />
+      </header>
+      <p className="lede">{claim.summary}</p>
+      <div className="columns">
+        <div className="stack">
+          <div className="panel stack-sm">
+            <h2>Decision</h2>
+            <Decision claim={claim} />
+          </div>
+          <div className="panel stack-sm">
+            <h2>Story</h2>
+            <p className="muted">
+              {claim.customer_name}, {label(claim.claim_type)},{" "}
+              {claim.incident_location}, {claim.incident_date}
+            </p>
+            <p>{claim.story}</p>
+          </div>
+          <div className="panel stack-sm">
+            <h2>Items claimed</h2>
+            <table>
+              <tbody>
+                {claim.items.map((item) => (
+                  <tr key={item.description}>
+                    <td>{item.description}</td>
+                    <td className="num mono">{money(item.amount)}</td>
+                  </tr>
+                ))}
+                <tr className="total">
+                  <td>Total claimed</td>
+                  <td className="num mono">{money(claim.amount_claimed)}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div className="panel stack-sm">
+            <h2>Documents</h2>
+            {claim.documents.map((doc) => (
+              <div key={doc.name} className="doc">
+                <h3>{doc.name}</h3>
+                <p>{doc.content}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="stack">
+          <div className="panel stack-sm">
+            <h2>What the agent did</h2>
+            <Steps steps={steps} />
+          </div>
+          <div className="panel stack-sm">
+            <h2>Policy</h2>
+            {policy && <PolicyPanel policy={policy} />}
+          </div>
+          <div className="panel stack-sm">
+            <h2>Earlier claims</h2>
+            <History history={history} />
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}

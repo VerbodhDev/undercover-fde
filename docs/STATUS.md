@@ -1,6 +1,6 @@
 # Status
 
-The claims pilot, built from `docs/PLAN.md`. Done so far: phases 1 to 3.
+The claims pilot, built from `docs/PLAN.md`. Done so far: phases 1 to 4.
 
 - `backend/`: FastAPI on SQLite. `backend/store.py` creates `backend/undercover.db` (or the file in
   `UNDERCOVER_DB`) and seeds it from `data/` on first start: the 25 claims, the policies and the
@@ -12,7 +12,11 @@ The claims pilot, built from `docs/PLAN.md`. Done so far: phases 1 to 3.
 - `agent/`: the UnderCover Agent. Six tools (`get_claim`, `get_policy`, `get_claim_history`,
   `get_policy_wording`, `record_decision`, `pay_claim`) that call the backend over HTTP. `run()`
   starts the claim and posts each step to the backend. It has no sign-off tool.
-- `dashboard/`: still the backend health page.
+- `dashboard/`: the claims desk. The queue (`#/`) with a count per state, each claim in full
+  (`#/claims/CLM-1001`) with its decision, reasons, the agent's steps, the policy and earlier claims,
+  and the agent's instructions read only (`#/instructions`). Light and dark mode.
+- `e2e/`: Playwright tests on their own servers (backend :8001, dashboard :5174) and their own
+  database, `e2e/e2e.db`, which is deleted at the start of each run.
 
 ## Run it
 
